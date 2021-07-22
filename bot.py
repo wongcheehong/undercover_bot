@@ -24,10 +24,6 @@ async def on_command_error(ctx, error):
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 
 @client.command()
-async def yk(ctx):
-    await ctx.send("https://cdn.discordapp.com/attachments/762714777326714920/866309621396406272/210371987_805440960161152_2043348955967478220_n.jpg")
-
-@client.command()
 async def ping(ctx):
     await ctx.send(f"Pong! {round(client.latency * 1000)}ms")
 
