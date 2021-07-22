@@ -1,0 +1,10 @@
+__pycache__/
+undercover-env/
+scraping/
+
+undercover.db
+test.py
+databases/Backup/
+
+# Environments
+.env
