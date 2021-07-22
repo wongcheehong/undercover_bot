@@ -22,7 +22,7 @@ async def on_command_error(ctx, error):
     else:
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
-""
+
 @client.command()
 async def yk(ctx):
     await ctx.send("https://cdn.discordapp.com/attachments/762714777326714920/866309621396406272/210371987_805440960161152_2043348955967478220_n.jpg")
