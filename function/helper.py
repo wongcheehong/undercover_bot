@@ -44,7 +44,7 @@ async def handle_guess(self, member):
         return False
     else:
         if msg.content.replace(' ', '').lower() == self.c_word.replace(' ', '').lower():
-            await member.send("**:tada: Congrats! You got it RIGHT!** :check_mark_button:")
+            await member.send("**:tada: Congrats! You got it RIGHT!** :white_check_mark::white_check_mark:")
             return True
         else:
             await member.send("**:x: Wrong! Try harder next time :wink:**")
