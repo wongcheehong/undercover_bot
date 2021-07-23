@@ -4,8 +4,16 @@ import json
 
 async def send_lobby_message(ctx, settings: dict):
     MAX_PLAYERS_ALLOWED = settings['MAX_PLAYERS_ALLOWED']
-    undercover = settings['undercover']
-    white = settings['white']
+    if settings['random_mode']:
+        random_mode = "On"
+        civilian = "?"
+        undercover = "?"
+        white = "?"
+    else:
+        random_mode = "Off"
+        civilian = "0"
+        undercover = settings['undercover']
+        white = settings['white']
 
     embed = discord.Embed(
         title = "Undercover Lobby",
@@ -16,9 +24,10 @@ async def send_lobby_message(ctx, settings: dict):
     embed.set_footer(text="Made with ❤️ by Wong Chee Hong")
     embed.add_field(name='Current Players Count', value=f"0/{MAX_PLAYERS_ALLOWED}", inline=False)
     embed.add_field(name='Current Settings', value="\u200b", inline=False)
-    embed.add_field(name='Civilians', value="0", inline=True)
+    embed.add_field(name='Civilians', value=civilian, inline=True)
     embed.add_field(name='Undercovers', value=undercover, inline=True)
     embed.add_field(name='Mr. Whites', value=white, inline=True)
+    embed.add_field(name='Random Mode', value=random_mode, inline=False)
     
     message = await ctx.send(embed=embed)
     await message.add_reaction('🔗')
@@ -26,12 +35,20 @@ async def send_lobby_message(ctx, settings: dict):
 
 async def update_lobby_message(message: discord.Message, players_list: list, settings: dict):
     MAX_PLAYERS_ALLOWED = settings['MAX_PLAYERS_ALLOWED']
-    undercover = settings['undercover']
-    white = settings['white']
-    if((num := len(players_list)) > undercover + white):
-        civilian = num - undercover - white
+    if settings['random_mode']:
+        random_mode = "On"
+        civilian = "?"
+        undercover = "?"
+        white = "?"
     else:
-        civilian = 0
+        random_mode = "Off"
+        undercover = settings['undercover']
+        white = settings['white']
+        if((num := len(players_list)) > undercover + white):
+            civilian = num - undercover - white
+        else:
+            civilian = 0
+    
     embed = discord.Embed(
         title = "Undercover Lobby",
         description = "Press the link emoji to join the game! `!start` to start the game",
@@ -41,9 +58,11 @@ async def update_lobby_message(message: discord.Message, players_list: list, set
     embed.set_footer(text="Made with ❤️ by Wong Chee Hong")
     embed.add_field(name='Players', value=f"{len(players_list)}/{MAX_PLAYERS_ALLOWED}", inline=False)
     embed.add_field(name='Current Settings', value="\u200b", inline=False)
-    embed.add_field(name='Civilians', value=str(civilian), inline=True)
-    embed.add_field(name='Undercovers', value=str(undercover), inline=True)
-    embed.add_field(name='Mr. Whites', value=str(white), inline=True)
+    embed.add_field(name='Civilians', value=civilian, inline=True)
+    embed.add_field(name='Undercovers', value=undercover, inline=True)
+    embed.add_field(name='Mr. Whites', value=white, inline=True)
+    embed.add_field(name='Random Mode (`!random` to switch)', value=random_mode, inline=False)
+
     if players_list:
         embed.add_field(name='Players Linked', value="\n".join([player.mention for player in players_list]), inline=False)
 

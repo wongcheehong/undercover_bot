@@ -3,6 +3,7 @@ from discord.ext import commands
 import os, traceback, sys
 from dotenv import load_dotenv
 from function.helper import empty_vote_scheduler_file
+import requests
 
 
 load_dotenv()
@@ -26,6 +27,12 @@ async def on_command_error(ctx, error):
 @client.command()
 async def yk(ctx):
     await ctx.send("https://cdn.discordapp.com/attachments/762714777326714920/866309621396406272/210371987_805440960161152_2043348955967478220_n.jpg")
+
+@client.command()
+async def meme(ctx):
+    r = requests.get("https://meme-api.herokuapp.com/gimme")
+    r = r.json()
+    await ctx.send(r['url'])
 
 @client.command()
 async def ping(ctx):
@@ -55,9 +62,6 @@ async def reload(ctx, extension="lobby"):
 
 
 client.load_extension(f'cogs.lobby')
-# for filename in os.listdir('./cogs'):
-#     if filename.endswith('py'):
-#         client.load_extension(f'cogs.{filename[:-3]}')
 
 
 client.run(os.getenv("DISCORD_TOKEN"))

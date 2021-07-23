@@ -2,5 +2,6 @@
     "MAX_PLAYERS_ALLOWED": 20,
     "undercover": 1,
     "white": 0,
-    "vote_time": 30
+    "vote_time": 30,
+    "random_mode": true
 }

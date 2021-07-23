@@ -2,7 +2,7 @@ import random
 import asyncio
 import json
 import discord
-
+import math
 
 def decide_playing_order(players: dict):
     l = list(players.items())
@@ -57,3 +57,22 @@ def empty_vote_scheduler_file():
 
     with open('./databases/scheduler.json', 'w') as schedule_file:
         json.dump(empty_dict, schedule_file, indent=4)
+
+# Given a number N, find and return all possible combination (a, b) where a>b and a+b=N
+def find_possible_combinations(number_of_infiltrators: int) -> list:
+    result = []
+    for a in range(number_of_infiltrators+1):
+        for b in range(a, number_of_infiltrators+1):
+            if a + b == number_of_infiltrators:
+                result.append((b, a))
+    return result
+
+def get_random_number_of_infiltrators(total_players: int):
+    min = math.floor(total_players/4) + 1
+    max = math.floor(total_players/2)
+    return random.randint(min, max)
+
+def randomCombinationInfiltrator(total_players):
+    number_of_infiltrators = get_random_number_of_infiltrators(total_players)
+    possible_combinations = find_possible_combinations(number_of_infiltrators)
+    return random.choice(possible_combinations) # returns a tuple (Undercover, Mr.White)

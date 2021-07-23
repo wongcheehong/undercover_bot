@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from discord.ext import commands
 from function.message import send_lobby_message, update_lobby_message
+from function.helper import randomCombinationInfiltrator
 import random, math
 from cogs.game_control import GameControl
 
@@ -69,9 +70,19 @@ class Lobby(commands.Cog):
         """
         if self.message is None:
             await ctx.send(":no_entry: **Please run `!new` fisrt before setting**")
+        elif self.settings['random_mode']:
+            await ctx.send(":no_entry: **Random mode is on, please turn it off by `!random` before setting**")
         else:
             self.settings['undercover'] = int(undercover)
             self.settings['white'] = int(white)
+            await update_lobby_message(self.message, self.players, self.settings)
+    
+    @commands.command()
+    async def random(self, ctx):
+        if self.message is None:
+            await ctx.send(":no_entry: **Please run `!new` fisrt before setting**")
+        else:
+            self.settings['random_mode'] = not self.settings['random_mode']
             await update_lobby_message(self.message, self.players, self.settings)
 
     @commands.command()
@@ -79,14 +90,21 @@ class Lobby(commands.Cog):
         """
         Start the game with the players in the current lobby
         """
+        if self.message is None:
+            await ctx.send(":no_entry: **Please run `!new` first**")
+            return
+        
         player_count = len(self.players)
+        if(player_count < 3):
+            await ctx.send(":warning: **Not enough players. Minimum 3 players**")
+            return
+        if self.settings['random_mode']:
+            self.settings['undercover'], self.settings['white'] = randomCombinationInfiltrator(player_count)
+            print("Random mode is on")
         infiltrator_count = self.settings['undercover'] + self.settings['white']
         max_infiltrator_allowed = math.floor(player_count/2)
         if self.message is None:
             await ctx.send(":no_entry: **Please run `!new` first**")
-            return
-        elif(player_count < 3):
-            await ctx.send(":warning: **Not enough players. Minimum 3 players**")
             return
         elif(infiltrator_count < 1):
             await ctx.send(":warning: **Set at least one infiltrator**")
@@ -95,10 +113,7 @@ class Lobby(commands.Cog):
             await ctx.send(f":warning: **Maximum allowed infiltrator for {player_count} players = {max_infiltrator_allowed}**")
             return
         switch_game_state()
-        self.__disable_listener()
-        ####
-        
-        ####            
+        self.__disable_listener()          
         self.bot.add_cog(GameControl(self.bot, ctx, self.players, self.settings))
 
     def __disable_listener(self):

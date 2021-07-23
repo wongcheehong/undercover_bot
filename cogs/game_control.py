@@ -60,8 +60,8 @@ class GameControl(commands.Cog):
             self.players_data[id_]['role'] = 'white'
 
         # DEBUG Purpose
-        with open("./databases/players.json", 'w', encoding='utf-8') as f:
-            json.dump(self.players_data, f)
+        # with open("./databases/players.json", 'w', encoding='utf-8') as f:
+        #     json.dump(self.players_data, f)
 
         for id_, player in self.players_data.items():
             index = player['index']
