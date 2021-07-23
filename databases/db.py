@@ -12,7 +12,6 @@ def get_all_word_pairs():
 def set_hasBeenPlayed(id_):
     c.execute("UPDATE CompleteWordPairs SET hasBeenPlayed=1 WHERE id=?", (id_,))
     conn.commit()
-    print("Done")
 
 def get_word_pair():
     rows = get_all_word_pairs()
