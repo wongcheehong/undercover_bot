@@ -27,7 +27,7 @@ async def send_lobby_message(ctx, settings: dict):
     embed.add_field(name='Civilians', value=civilian, inline=True)
     embed.add_field(name='Undercovers', value=undercover, inline=True)
     embed.add_field(name='Mr. Whites', value=white, inline=True)
-    embed.add_field(name='Random Mode', value=random_mode, inline=False)
+    embed.add_field(name='Random Mode (`!random` to switch)', value=random_mode, inline=False)
     
     message = await ctx.send(embed=embed)
     await message.add_reaction('🔗')

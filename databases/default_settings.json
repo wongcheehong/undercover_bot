@@ -3,5 +3,5 @@
     "undercover": 1,
     "white": 0,
     "vote_time": 30,
-    "random_mode": true
+    "random_mode": false
 }

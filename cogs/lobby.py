@@ -32,6 +32,7 @@ class Lobby(commands.Cog):
         """
         Create a new lobby session
         """
+        self.__enable_listener()
         self.players = []
         self.bot.remove_cog("GameControl")
         self.message = await send_lobby_message(ctx, self.settings)
@@ -84,6 +85,13 @@ class Lobby(commands.Cog):
         else:
             self.settings['random_mode'] = not self.settings['random_mode']
             await update_lobby_message(self.message, self.players, self.settings)
+    
+    @commands.command()
+    async def stop(self, ctx):
+        """
+        Stop the reaction listener
+        """
+        self.__disable_listener()
 
     @commands.command()
     async def start(self, ctx):

@@ -17,7 +17,7 @@ def check_if_alive(alived_players_data):
         return str(ctx.message.author.id) in alived_players_data
 
 class GameControl(commands.Cog):
-    def __init__(self, bot, ctx, players: list[discord.Member], settings: dict):
+    def __init__(self, bot, ctx, players: list, settings: dict):
         self.bot = bot 
         self.ctx = ctx
         self.players = players
